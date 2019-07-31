@@ -2,6 +2,7 @@ package maincode;
 import java.util.Scanner;
 import java.util.Random;
 
+
 //******************************************************************
 //ASK QUESTION:
 //STOP ANSWERING TIME
