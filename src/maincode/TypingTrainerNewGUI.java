@@ -1,3 +1,5 @@
+//testloesch
+
 package maincode;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
