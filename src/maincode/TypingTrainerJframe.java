@@ -1,4 +1,7 @@
-//testloesch
+/*this code has been generated using eclipse WindowBuilder
+ *  in eclipse it can be copy pasted in a freshly created
+ *   WindowBuilder>SwingDesigner>Jframe sketch to make the design view available
+ */
 
 package maincode;
 import java.awt.BorderLayout;
@@ -8,7 +11,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-public class TypingTrainerNewGUI extends JFrame {
+public class TypingTrainerJframe extends JFrame {
+	public TypingTrainerJframe() {
+	}
 
 	private JPanel contentPane;
 
