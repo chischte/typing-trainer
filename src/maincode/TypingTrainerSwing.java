@@ -1,3 +1,9 @@
+/* this 
+ * code has been generated using eclipse WindowBuilder
+ * in eclipse it can be copy pasted in a freshly created
+ * WindowBuilder>SwingDesigner>Jframe sketch to make the design view available
+ */
+
 package maincode;
 /*
  * To change this license header, choose License Headers in Project Properties.
