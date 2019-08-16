@@ -1,7 +1,7 @@
 /**
  * ********************************************************************************
  * TYPING TRAINER
- * 
+ * ********************************************************************************
  * @file TypingTrainer.java
  * @version August 2019, Zürich
  * @author Michael Wettstein 
@@ -24,16 +24,6 @@ package maincode;
 
 import java.util.Scanner;
 import java.util.Random;
-
-//******************************************************************
-//ASK QUESTION:
-//STOP ANSWERING TIME
-//STORE ANSWERING TIME FOR EACH CHARACTER
-//FIRST, ASK EVERY CHARACTER AT LEAST ONCE
-//THEN, EVERY FIFTH QUESTION ASK THE CHARACTER WITH THE LONGEST ANSWERING TIME
-//TODO: CREATE RUNNING AVERAGE OF ANSWERING TIME
-//TODO: STOP TIME UNTIL EVERY CHARACTER HAS BEEN ASKED ONCE
-//TODO SHOW SLOWEST IN RED
 
 public class TypingTrainer {
     // ************************************************************************
