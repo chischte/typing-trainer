@@ -3,14 +3,14 @@
  * TYPING TRAINER
  * ********************************************************************************
  * @file TypingTrainer.java
- * @version August 2019, Zürich
  * @author Michael Wettstein 
+ * @version August 2019, Zürich
  * @brief Interactive Typing Trainer
  * ********************************************************************************
  */
 
 /*
- * ToDo & NOTES:
+ * TODO & NOTES:
  * Stop answering time
  * Store answering time for each character
  * In calibration mode, randomly ask every charchter once
@@ -26,8 +26,7 @@ import java.util.Scanner;
 import java.util.Random;
 
 public class TypingTrainer {
-    // ************************************************************************
-    // STATIC VARIABLES:
+   
     public static int numberOfQuestions = 5;// DEFAULT 94
     static char[] allCharsArray = new char[numberOfQuestions];
     static int[] allQuestionsArrayNo = new int[numberOfQuestions];
@@ -58,7 +57,7 @@ public class TypingTrainer {
             index++;
         }
 
-    }// END OF createCharArray()
+    }
 
     public static void printAllCharacters() {
         // PRINT ALL CHARACTERS:
@@ -99,7 +98,7 @@ public class TypingTrainer {
                     currentQuestionNo++;
                 }
             }
-        } // END OF WHILE
+        } 
           // TRANSFER NO ARRAY TO STRING
         for (int i = 0; i < numberOfQuestions; i++) {
             int currentNo = allQuestionsArrayNo[i];
@@ -108,7 +107,7 @@ public class TypingTrainer {
             allQuestionsArrayString[i] = currentString;
         }
         return allQuestionsArrayString;
-    }// END OF generateQuestionCharArray
+    }
 
     public static void printArray() {
         // PRINT ALL CHARACTERS:
@@ -146,7 +145,7 @@ public class TypingTrainer {
         System.out.printf("Answering Time %.1f seconds%n", timeElapsedSec);
         answeredCorrect = false;// restart question loop
 
-    }// END OF askAndType
+    }
 
     public static void saveTime() {
         // STORE ANSWERING TIME:
@@ -178,7 +177,7 @@ public class TypingTrainer {
                     + currentSignsPerMinute) / smoothvalue;
         }
         System.out.printf("AverageSpeed = %.0f%n", smoothedSignsPerMinute);
-    }// END OF saveTime()
+    }
 
     // ******************************************************************
     // MAIN:
@@ -191,7 +190,6 @@ public class TypingTrainer {
         generateQuestionStringArray();
         printArray();
 
-    }// END OF MAIN
-     // ******************************************************************
+    }
 
-}// END OF CLASS
+}

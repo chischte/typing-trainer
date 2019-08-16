@@ -28,9 +28,6 @@ public class TypingTrainerSwing extends javax.swing.JFrame {
     String level = "0.0";
 
     static int questionNo = 0;
-    // ****************************************************************************
-    // ****************************************************************************
-    // ****************************************************************************
 
     /**
      * Creates new form JFrame_GUI
@@ -247,30 +244,9 @@ public class TypingTrainerSwing extends javax.swing.JFrame {
      */
     public static void main(String args[]) {
 
-        // ****************************************************************************
-        // ****************************************************************************
-        // ****************************************************************************
-        // MAIN:
-        // GET NEW QUESTION CHAR AND CONVERT IT TO STRING:
-        // q uestionString= new String[94];
-        // CREATE AN INSTANCE OF CLASS TYPING TRAINER:
-        // TypingTrainer brain = new TypingTrainer();
         TypingTrainer.createCharArray();
         questionStringArray = TypingTrainer.generateQuestionStringArray();
 
-        // questionField.setText("T"); // TODO add your handling code here:
-        // ****************************************************************************
-        // ****************************************************************************
-
-        /* Set the Nimbus look and feel */
-        // <editor-fold defaultstate="collapsed" desc=" Look and feel setting
-        // code (optional) ">
-        /*
-         * If Nimbus (introduced in Java SE 6) is not available, stay with the
-         * default look and feel. For details see
-         * http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.
-         * html
-         */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager
                     .getInstalledLookAndFeels()) {
