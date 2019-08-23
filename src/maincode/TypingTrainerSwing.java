@@ -16,18 +16,22 @@ package maincode;
 import javax.sound.midi.MidiDevice.Info;
 
 public class TypingTrainerSwing extends javax.swing.JFrame {
-  // ****************************************************************************
-  // ****************************************************************************
-  // ****************************************************************************
+
   private static final long serialVersionUID = 1L;
+  
   static int numberOfQuestions = TypingTrainer.numberOfQuestions;
+  
   public static String[] questionStringArray = new String[numberOfQuestions];
   public static int qChar;
+  
   public static boolean answeredCorrect;
+  
   static char questionChar;
+  
   static String questionString;
   static String typedChar;
   String level = "0.0";
+  long timeForAllStart;
 
   static int questionNo = 0;
 
@@ -182,7 +186,7 @@ public class TypingTrainerSwing extends javax.swing.JFrame {
       String questionString = questionStringArray[questionNo];
       questionField.setText(questionString);
       answerField.setText("");
-      long timeForAllStart = System.nanoTime();
+      timeForAllStart =  System.currentTimeMillis();
       break;
 
     case "1.0":// CALIBRATION LEVEL, TYPE EVERY CHAR ONCE
@@ -211,8 +215,12 @@ public class TypingTrainerSwing extends javax.swing.JFrame {
 
     case "1.1":// CALIBRATION LEVEL FINISHED
       infoTextField.setText("...finished!");
+      long timeForAllFinish =  System.currentTimeMillis();
+      long timeElapsed = timeForAllFinish - timeForAllStart;
+      String timeElapsedString = new Long(timeElapsed/1000).toString();
+      charsPerMinuteField.setText(timeElapsedString);
       break;
-
+      
     }// GEN-LAST:event_answerFieldKeyReleased
   }
 
