@@ -2,7 +2,7 @@
  * ********************************************************************************
  * TYPING TRAINER
  * ********************************************************************************
- * @file TypingTrainerSwing.java
+ * @file TypingTrainer.java
  * @author Michael Wettstein 
  * @version August 2019, Zürich
  * @brief Interactive Typing Trainer
@@ -28,39 +28,33 @@
 
 package maincode;
 
-import javax.annotation.processing.RoundEnvironment;
-import javax.sound.midi.MidiDevice.Info;
+public class TypingTrainer extends javax.swing.JFrame {
 
-public class TypingTrainerSwing extends javax.swing.JFrame {
-
+  // VARIABLES:
   private static final long serialVersionUID = 1L;
 
-  static int numberOfQuestions = RandomCharGenerator.numberOfQuestions;
-
-  public static String[] questionStringArray = new String[numberOfQuestions];
-  public static int qChar;
-
-  public static boolean answeredCorrect;
-
+  static boolean answeredCorrect;
   static char questionChar;
 
+  static int questionNo = 0;
+  static int qChar;
+  static int numberOfQuestions = RandomQuestionGenerator.numberOfQuestions;
+
+  static String[] questionStringArray = new String[numberOfQuestions];
   static String questionString;
   static String typedChar;
-  String level = "0.0";
-  long startTime;
+  static String level = "0.0";
 
-  static int questionNo = 0;
+  static long startTime;
+  static long charStopwatch;
 
-  /**
-   * Creates new form JFrame_GUI
-   */
-  public TypingTrainerSwing() {
+  // ARRAYS:
+  static long[] answeringTimeArray = new long[numberOfQuestions];
+
+  public TypingTrainer() {
     initComponents();
   }
 
-  @SuppressWarnings("unchecked")
-  // <editor-fold defaultstate="collapsed" desc="Generated
-  // Code">//GEN-BEGIN:initComponents
   private void initComponents() {
     java.awt.GridBagConstraints gridBagConstraints;
 
@@ -142,11 +136,6 @@ public class TypingTrainerSwing extends javax.swing.JFrame {
     answerField.setFont(new java.awt.Font("Ubuntu Mono", 1, 90)); // NOI18N
     answerField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
     answerField.setPreferredSize(new java.awt.Dimension(130, 130));
-    answerField.addActionListener(new java.awt.event.ActionListener() {
-      public void actionPerformed(java.awt.event.ActionEvent evt) {
-        answerFieldActionPerformed(evt);
-      }
-    });
     answerField.addKeyListener(new java.awt.event.KeyAdapter() {
 
       public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -174,10 +163,6 @@ public class TypingTrainerSwing extends javax.swing.JFrame {
     pack();
   }// </editor-fold>//GEN-END:initComponents
 
-  private void answerFieldActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_answerFieldActionPerformed
-    // TODO add your handling code here:
-  }// GEN-LAST:event_answerFieldActionPerformed
-
   private void answerFieldKeyReleased(java.awt.event.KeyEvent evt) {// GEN-FIRST:event_answerFieldKeyReleased
 
     typedChar = answerField.getText();
@@ -187,12 +172,13 @@ public class TypingTrainerSwing extends javax.swing.JFrame {
     case "0.0":// SHOW FIRST QUESTION
       infoTextField.setText("");
       level = "1.0";
-      String questionString = questionStringArray[questionNo];
+      questionString = questionStringArray[questionNo];
       questionField.setText(questionString);
       answerField.setText("");
       String charsToGoString = Integer.toString(numberOfQuestions - questionNo);
       charsToGoField.setText(charsToGoString);
       startTime = System.currentTimeMillis();
+      charStopwatch = System.currentTimeMillis();
       break;
 
     case "1.0":// CALIBRATION LEVEL, TYPE EVERY CHAR ONCE
@@ -202,30 +188,39 @@ public class TypingTrainerSwing extends javax.swing.JFrame {
       // ANSWERED CORRECT:
       if (typedChar.equals(questionStringArray[questionNo])) {
         setQuestionFieldColor("black");
-        questionNo++;
 
         // display chars to go:
-        charsToGoString = Integer.toString(numberOfQuestions - questionNo);
+        charsToGoString = Integer.toString(numberOfQuestions - (questionNo + 1));
         charsToGoField.setText(charsToGoString);
 
         // display typing speed:
         long timeElapsed = System.currentTimeMillis() - startTime;
-        float timeElapsedSeconds = timeElapsed / 1000;
+        float timeElapsedSeconds = timeElapsed / 1000f;
         float timePerChar = timeElapsedSeconds / (questionNo + 1);
         float charsPerMinute = 60 / timePerChar;
-        int charsPerMinuteInt=Math.round(charsPerMinute);
+        int charsPerMinuteInt = Math.round(charsPerMinute);
         String charsPerMinuteString = String.valueOf(charsPerMinuteInt);
-        //charsPerMinuteString=charsPerMinuteInt.replaceAll("\\.0*$", "");
         charsPerMinuteField.setText(charsPerMinuteString);
-        if (numberOfQuestions - (questionNo) == 0) {
+
+        // store answering speed
+        long charAnsweringTime = System.currentTimeMillis() - charStopwatch;
+        answeringTimeArray[questionNo] = charAnsweringTime;
+
+        System.out.println("Question number " + questionNo + " took "
+            + answeringTimeArray[questionNo] + " ms to answer");
+
+
+        if (numberOfQuestions - (questionNo+1) == 0) {
           level = "1.1";
           break;
         }
         // display next question:
+        charStopwatch = System.currentTimeMillis();
         questionString = questionStringArray[questionNo];
         questionField.setText(questionString);
         charsToGoString = Integer.toString(numberOfQuestions - questionNo);
         answerField.setText("");
+        questionNo++;
         break;
 
         // ANSWERED WRONG:
@@ -235,18 +230,24 @@ public class TypingTrainerSwing extends javax.swing.JFrame {
       break;
 
     case "1.1":// CALIBRATION LEVEL FINISHED
-      infoTextField.setText("...finished!");
+      long nextLevelTimer = System.currentTimeMillis() + 2000;
+      while (System.currentTimeMillis() < nextLevelTimer) {
+        // wait
+      }
+      infoTextField.setText("press any key to enter Drill Mode");
+      level = "2.0";
+      break;
+
+    case "2.0": // DRILL MODE:
+      break;
 
     }// GEN-LAST:event_answerFieldKeyReleased
   }
 
-  /**
-   * @param args the command line arguments
-   */
   public static void main(String args[]) {
 
-    RandomCharGenerator.createCharArray();
-    questionStringArray = RandomCharGenerator.generateQuestionStringArray();
+    RandomQuestionGenerator.createCharArray();
+    questionStringArray = RandomQuestionGenerator.generateQuestionStringArray();
 
     try {
       for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager
@@ -257,23 +258,23 @@ public class TypingTrainerSwing extends javax.swing.JFrame {
         }
       }
     } catch (ClassNotFoundException ex) {
-      java.util.logging.Logger.getLogger(TypingTrainerSwing.class.getName())
+      java.util.logging.Logger.getLogger(TypingTrainer.class.getName())
           .log(java.util.logging.Level.SEVERE, null, ex);
     } catch (InstantiationException ex) {
-      java.util.logging.Logger.getLogger(TypingTrainerSwing.class.getName())
+      java.util.logging.Logger.getLogger(TypingTrainer.class.getName())
           .log(java.util.logging.Level.SEVERE, null, ex);
     } catch (IllegalAccessException ex) {
-      java.util.logging.Logger.getLogger(TypingTrainerSwing.class.getName())
+      java.util.logging.Logger.getLogger(TypingTrainer.class.getName())
           .log(java.util.logging.Level.SEVERE, null, ex);
     } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-      java.util.logging.Logger.getLogger(TypingTrainerSwing.class.getName())
+      java.util.logging.Logger.getLogger(TypingTrainer.class.getName())
           .log(java.util.logging.Level.SEVERE, null, ex);
     }
 
     /* Create and display the form */
     java.awt.EventQueue.invokeLater(new Runnable() {
       public void run() {
-        new TypingTrainerSwing().setVisible(true);
+        new TypingTrainer().setVisible(true);
       }
     });
   }

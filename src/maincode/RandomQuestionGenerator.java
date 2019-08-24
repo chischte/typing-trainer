@@ -1,6 +1,6 @@
 /** 
  * ********************************************************************************
- * @file RandomCharGenerator.java
+ * @file RandomQuestionGenerator.java
  * @brief Generates the questions for the GUI
  * ********************************************************************************
  */
@@ -8,11 +8,10 @@
 package maincode;
 
 import java.util.Random;
-import java.util.Scanner;
 
-public class RandomCharGenerator {
+public class RandomQuestionGenerator {
 
-  //VARIABLES:
+  // VARIABLES:
   static boolean allQuestionsGenerated = false;
   static boolean charArrayCreated = false;
   static boolean answeredCorrect;
@@ -23,22 +22,25 @@ public class RandomCharGenerator {
   static long timeForAllStart;
   static long start;
   static double smoothedSignsPerMinute;
-  static double[] timeArray = new double[numberOfQuestions];
+  
   static double timeElapsedSec;
   static double slowestCharTime;
   static String askedChar;
-  static String[] allQuestionsArrayString = new String[numberOfQuestions];
-  
-  //ARRAYS:
+
+  // ARRAYS:
   static int[] allQuestionsArrayNo = new int[numberOfQuestions];
   static char[] allCharsArray = new char[numberOfQuestions];
+  static double[] timeArray = new double[numberOfQuestions];
+  static String[] allQuestionsArrayString = new String[numberOfQuestions];
+
+  private static Random rand = new Random();
 
   public static void createCharArray() {
 
     // ALGORITHM TO CREATE AN ARRAY CONTAINING ALL CHARACTERS:
     int i;
     int index = 0;
-    for (i = 70; i <= (70+numberOfQuestions-1); i++)// default 94 questions = ASCII 33-126
+    for (i = 70; i <= (70 + numberOfQuestions - 1); i++)// default 94 questions = ASCII 33-126
     {
       char currentCharacter = (char) i;
       allCharsArray[index] = currentCharacter;
@@ -51,17 +53,17 @@ public class RandomCharGenerator {
     for (int i = 0; i < numberOfQuestions; i++) {
       allQuestionsArrayNo[i] = 666;
     }
-    
+
     // CREATE RANDOM VALUE ARRAY:
-    Random rand = new Random();
     int randCharNo = 0;
     int currentQuestionNo = 0;
     while (currentQuestionNo < numberOfQuestions) {
       boolean currentSlotAssigned = false;
       boolean noAlreadyAssigned;
-      while (currentSlotAssigned == false) {
+      while (!currentSlotAssigned) {
         noAlreadyAssigned = false;
-        // CREATE RANDOM VALUE
+
+        // CREATE RANDOM VALUE:
         randCharNo = rand.nextInt(numberOfQuestions);
         // CHECK IF RAND NO HAS ALLREADY BEEN ASIGNED:
         for (int i = 0; i < numberOfQuestions; i++) {
@@ -70,7 +72,7 @@ public class RandomCharGenerator {
             noAlreadyAssigned = true;
           }
         }
-        if (noAlreadyAssigned == false) {
+        if (!noAlreadyAssigned) {
           allQuestionsArrayNo[currentQuestionNo] = randCharNo;
           currentSlotAssigned = true;
           currentQuestionNo++;
@@ -86,8 +88,8 @@ public class RandomCharGenerator {
     }
     return allQuestionsArrayString;
   }
-
-  public static void printArray() {
+  
+  private static void printArray() {
     // PRINT ALL CHARACTERS:
     for (int i = 0; i < numberOfQuestions; i++) {
       System.out.println("Question number " + i + " points to char number " + allQuestionsArrayNo[i]
@@ -95,14 +97,10 @@ public class RandomCharGenerator {
     }
   }
 
-  // ******************************************************************
-  // MAIN:
-  // ******************************************************************
   public static void main(String[] args) {
 
     createCharArray();
-    // timeForAllStart = System.nanoTime();
-   generateQuestionStringArray();
+    generateQuestionStringArray();
     printArray();
   }
 }
