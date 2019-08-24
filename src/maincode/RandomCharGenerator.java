@@ -1,36 +1,20 @@
-/**
+/** 
  * ********************************************************************************
- * TYPING TRAINER
+ * @file RandomCharGenerator.java
+ * @brief Generates the questions for the GUI
  * ********************************************************************************
- * @file TypingTrainer.java
- * @author Michael Wettstein 
- * @version August 2019, Zürich
- * @brief Interactive Typing Trainer
- * ********************************************************************************
- */
-
-/*
- * TODO & NOTES:
- * Stop answering time
- * Store answering time for each character
- * In calibration mode, randomly ask every charchter once
- * In drill mode, randomly ask only the then slowest answered characters
- * Calculate average answering speed
- * Stop time for calibration mode
- * Show slowest characters in red
  */
 
 package maincode;
 
-import java.util.Scanner;
 import java.util.Random;
+import java.util.Scanner;
 
-public class TypingTrainer {
+public class RandomCharGenerator {
 
   public static int numberOfQuestions = 2;// DEFAULT 94
   static char[] allCharsArray = new char[numberOfQuestions];
   static int[] allQuestionsArrayNo = new int[numberOfQuestions];
-  static String[] allQuestionsArrayString = new String[numberOfQuestions];
   static double[] timeArray = new double[numberOfQuestions];
   static double timeElapsedSec;
   static int askedCharNo;
@@ -44,6 +28,7 @@ public class TypingTrainer {
   static long start;
   static double smoothedSignsPerMinute;
   static String askedChar;
+  static String[] allQuestionsArrayString = new String[numberOfQuestions];
 
   public static void createCharArray() {
 
@@ -63,6 +48,7 @@ public class TypingTrainer {
     for (int i = 0; i < numberOfQuestions; i++) {
       allQuestionsArrayNo[i] = 666;
     }
+    
     // CREATE RANDOM VALUE ARRAY:
     Random rand = new Random();
     int randCharNo = 0;

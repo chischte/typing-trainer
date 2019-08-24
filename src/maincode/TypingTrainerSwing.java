@@ -1,14 +1,29 @@
-/** 
+/**
+ * ********************************************************************************
+ * TYPING TRAINER
  * ********************************************************************************
  * @file TypingTrainerSwing.java
- * @brief Swing GUI for the Typing Trainer
+ * @author Michael Wettstein 
+ * @version August 2019, Zürich
+ * @brief Interactive Typing Trainer
  * ********************************************************************************
- */
-
-/* 
- * this code has been generated using eclipse WindowBuilder
- * in eclipse it can be copy-pasted in a newly created WindowBuilder>SwingDesigner>Jframe
- * sketch to make the design view available
+ * Program Steps:
+ * Create an array containing all characters to be asked
+ * Randomize the order of the chars
+ * Level 1 - "Calibration Mode":
+ * Ask every char once in the GUI
+ * Showing the average answering time for a char
+ * Storing the answering time for each char individually
+ * Level 2 - "Drill Mode":
+ * Ask only the 10 currently slowest answered chars for a minute
+ * Permanently updating the top 10 list of the slowest chars
+ * End Screen:
+ * Display the 5 slowest chars in red and declare them as weak spots.
+ * ********************************************************************************
+ * This code has been generated using eclipse WindowBuilder.
+ * In eclipse it can be copy-pasted in a newly created WindowBuilder>SwingDesigner>
+ * Jframe sketch to make the graphical design view available
+ * ********************************************************************************
  */
 
 package maincode;
@@ -19,7 +34,7 @@ public class TypingTrainerSwing extends javax.swing.JFrame {
 
   private static final long serialVersionUID = 1L;
   
-  static int numberOfQuestions = TypingTrainer.numberOfQuestions;
+  static int numberOfQuestions = RandomCharGenerator.numberOfQuestions;
   
   public static String[] questionStringArray = new String[numberOfQuestions];
   public static int qChar;
@@ -213,6 +228,7 @@ public class TypingTrainerSwing extends javax.swing.JFrame {
       }
       break;
 
+      
     case "1.1":// CALIBRATION LEVEL FINISHED
       infoTextField.setText("...finished!");
       long timeForAllFinish =  System.currentTimeMillis();
@@ -234,8 +250,8 @@ public class TypingTrainerSwing extends javax.swing.JFrame {
    */
   public static void main(String args[]) {
 
-    TypingTrainer.createCharArray();
-    questionStringArray = TypingTrainer.generateQuestionStringArray();
+    RandomCharGenerator.createCharArray();
+    questionStringArray = RandomCharGenerator.generateQuestionStringArray();
 
     try {
       for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager
@@ -265,7 +281,6 @@ public class TypingTrainerSwing extends javax.swing.JFrame {
         new TypingTrainerSwing().setVisible(true);
       }
     });
-
   }
 
   // Variables declaration - do not modify//GEN-BEGIN:variables
