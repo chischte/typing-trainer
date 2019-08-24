@@ -28,25 +28,26 @@
 
 package maincode;
 
+import javax.annotation.processing.RoundEnvironment;
 import javax.sound.midi.MidiDevice.Info;
 
 public class TypingTrainerSwing extends javax.swing.JFrame {
 
   private static final long serialVersionUID = 1L;
-  
+
   static int numberOfQuestions = RandomCharGenerator.numberOfQuestions;
-  
+
   public static String[] questionStringArray = new String[numberOfQuestions];
   public static int qChar;
-  
+
   public static boolean answeredCorrect;
-  
+
   static char questionChar;
-  
+
   static String questionString;
   static String typedChar;
   String level = "0.0";
-  long timeForAllStart;
+  long startTime;
 
   static int questionNo = 0;
 
@@ -147,13 +148,6 @@ public class TypingTrainerSwing extends javax.swing.JFrame {
       }
     });
     answerField.addKeyListener(new java.awt.event.KeyAdapter() {
-      public void keyTyped(java.awt.event.KeyEvent evt) {
-        answerFieldKeyTyped(evt);
-      }
-
-      public void keyPressed(java.awt.event.KeyEvent evt) {
-        answerFieldKeyPressed(evt);
-      }
 
       public void keyReleased(java.awt.event.KeyEvent evt) {
         answerFieldKeyReleased(evt);
@@ -184,66 +178,67 @@ public class TypingTrainerSwing extends javax.swing.JFrame {
     // TODO add your handling code here:
   }// GEN-LAST:event_answerFieldActionPerformed
 
-  private void answerFieldKeyPressed(java.awt.event.KeyEvent evt) {// GEN-FIRST:event_answerFieldKeyPressed
-    // infoTextField.setText("");
-  }// GEN-LAST:event_answerFieldKeyPressed
-
   private void answerFieldKeyReleased(java.awt.event.KeyEvent evt) {// GEN-FIRST:event_answerFieldKeyReleased
 
     typedChar = answerField.getText();
 
     switch (level) {
 
-    case "0.0":// START SCREEN
+    case "0.0":// SHOW FIRST QUESTION
       infoTextField.setText("");
       level = "1.0";
-      // show question char in question field
       String questionString = questionStringArray[questionNo];
       questionField.setText(questionString);
       answerField.setText("");
-      timeForAllStart =  System.currentTimeMillis();
+      String charsToGoString = Integer.toString(numberOfQuestions - questionNo);
+      charsToGoField.setText(charsToGoString);
+      startTime = System.currentTimeMillis();
       break;
 
     case "1.0":// CALIBRATION LEVEL, TYPE EVERY CHAR ONCE
-      // show question char in question field
       questionString = questionStringArray[questionNo];
-      questionField.setText(questionString);
+      questionField.setText(questionString); // show question char in question field
 
-      String charsToGoString = Integer.toString(numberOfQuestions - questionNo);
-      charsToGoField.setText(charsToGoString);
-
-      if (typedChar.equals(questionStringArray[questionNo])) {// = answered correct // correct
+      // ANSWERED CORRECT:
+      if (typedChar.equals(questionStringArray[questionNo])) {
         setQuestionFieldColor("black");
         questionNo++;
+
+        // display chars to go:
+        charsToGoString = Integer.toString(numberOfQuestions - questionNo);
+        charsToGoField.setText(charsToGoString);
+
+        // display typing speed:
+        long timeElapsed = System.currentTimeMillis() - startTime;
+        float timeElapsedSeconds = timeElapsed / 1000;
+        float timePerChar = timeElapsedSeconds / (questionNo + 1);
+        float charsPerMinute = 60 / timePerChar;
+        int charsPerMinuteInt=Math.round(charsPerMinute);
+        String charsPerMinuteString = String.valueOf(charsPerMinuteInt);
+        //charsPerMinuteString=charsPerMinuteInt.replaceAll("\\.0*$", "");
+        charsPerMinuteField.setText(charsPerMinuteString);
         if (numberOfQuestions - (questionNo) == 0) {
           level = "1.1";
           break;
         }
+        // display next question:
         questionString = questionStringArray[questionNo];
         questionField.setText(questionString);
-        // charsToGoString=Integer.toString(numberOfQuestions-questionNo);
+        charsToGoString = Integer.toString(numberOfQuestions - questionNo);
         answerField.setText("");
+        break;
+
+        // ANSWERED WRONG:
       } else if (!typedChar.equals("")) {// = answered wrong
         setQuestionFieldColor("red");
       }
       break;
 
-      
     case "1.1":// CALIBRATION LEVEL FINISHED
       infoTextField.setText("...finished!");
-      long timeForAllFinish =  System.currentTimeMillis();
-      long timeElapsed = timeForAllFinish - timeForAllStart;
-      String timeElapsedString = new Long(timeElapsed/1000).toString();
-      charsPerMinuteField.setText(timeElapsedString);
-      break;
-      
+
     }// GEN-LAST:event_answerFieldKeyReleased
   }
-
-  private void answerFieldKeyTyped(java.awt.event.KeyEvent evt) {// GEN-FIRST:event_answerFieldKeyTyped
-    // TODO add your handling code here:
-
-  }// GEN-LAST:event_answerFieldKeyTyped
 
   /**
    * @param args the command line arguments
