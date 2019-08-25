@@ -36,7 +36,7 @@ public class RandomQuestionGenerator {
   static String[] allQuestionsArrayString = new String[numberOfQuestions];
   static int[] flopTenArray = new int[10];
 
-  public static void createTopTen() {
+  public static void createFlopTen() {
     /*
      * Creates an array containing the question numbers of the currently slowest
      * answered questions
@@ -138,6 +138,6 @@ public class RandomQuestionGenerator {
     createCharArray();
     generateQuestionStringArray();
     printArray();
-    createTopTen();
+    createFlopTen();
   }
 }

@@ -244,7 +244,7 @@ public class TypingTrainer extends javax.swing.JFrame {
       System.out.println(Arrays.toString(answeringTimeArray));
 
       // print highscore question numbers:
-      RandomQuestionGenerator.createTopTen();
+      RandomQuestionGenerator.createFlopTen();
       System.out.println(Arrays.toString(RandomQuestionGenerator.flopTenArray));
 
       break;
