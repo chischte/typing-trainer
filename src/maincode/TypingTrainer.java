@@ -10,10 +10,12 @@
  * Program Steps:
  * Create an array containing all characters to be asked
  * Randomize the order of the chars
+ * 
  * Level 1 - "Calibration Mode":
  * Ask every char once in the GUI
  * Showing the average answering time for a char
  * Storing the answering time for each char individually
+ * 
  * Level 2 - "Drill Mode":
  * Ask only the 10 currently slowest answered chars for a minute
  * Permanently updating the top 10 list of the slowest chars
@@ -27,6 +29,8 @@
  */
 
 package maincode;
+
+import java.util.Arrays;
 
 public class TypingTrainer extends javax.swing.JFrame {
 
@@ -209,8 +213,7 @@ public class TypingTrainer extends javax.swing.JFrame {
         System.out.println("Question number " + questionNo + " took "
             + answeringTimeArray[questionNo] + " ms to answer");
 
-
-        if (numberOfQuestions - (questionNo+1) == 0) {
+        if (numberOfQuestions - (questionNo + 1) == 0) {
           level = "1.1";
           break;
         }
@@ -236,6 +239,14 @@ public class TypingTrainer extends javax.swing.JFrame {
       }
       infoTextField.setText("press any key to enter Drill Mode");
       level = "2.0";
+
+      // print answering time array:
+      System.out.println(Arrays.toString(answeringTimeArray));
+
+      // print highscore question numbers:
+      RandomQuestionGenerator.createTopTen();
+      System.out.println(Arrays.toString(RandomQuestionGenerator.flopTenArray));
+
       break;
 
     case "2.0": // DRILL MODE:

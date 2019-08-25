@@ -11,6 +11,8 @@ import java.util.Random;
 
 public class RandomQuestionGenerator {
 
+  private static Random rand = new Random();
+
   // VARIABLES:
   static boolean allQuestionsGenerated = false;
   static boolean charArrayCreated = false;
@@ -22,7 +24,7 @@ public class RandomQuestionGenerator {
   static long timeForAllStart;
   static long start;
   static double smoothedSignsPerMinute;
-  
+
   static double timeElapsedSec;
   static double slowestCharTime;
   static String askedChar;
@@ -32,17 +34,51 @@ public class RandomQuestionGenerator {
   static char[] allCharsArray = new char[numberOfQuestions];
   static double[] timeArray = new double[numberOfQuestions];
   static String[] allQuestionsArrayString = new String[numberOfQuestions];
+  static int[] flopTenArray = new int[10];
 
-  private static Random rand = new Random();
+  public static void createTopTen() {
+    /*
+     * Creates an array containing the question numbers of the currently slowest
+     * answered questions
+     */
+    long previousAnsweringTime = 0;
+
+    // STORE SLOWEST ANSWER (HIGHEST TIME) TO INDEX ZERO:
+    for (int i = 0; i < numberOfQuestions; i++) {
+      if (TypingTrainer.answeringTimeArray[i] > previousAnsweringTime) {
+        flopTenArray[0] = i;
+        previousAnsweringTime = TypingTrainer.answeringTimeArray[i];
+      }
+    }
+    // SORT AND STORE THE OTHER VALUES
+
+    // assign the whole flop ten:
+    for (int flopIndex = 1; flopIndex < 10; flopIndex++) {
+
+      // check all questions
+      for (int i = 0; i < numberOfQuestions; i++) {
+
+        // the value is bigger than the stored one:
+        if (TypingTrainer.answeringTimeArray[i] > TypingTrainer.answeringTimeArray[flopTenArray[flopIndex]]) {
+
+          // the value is not already stored in the highscore:
+          if (TypingTrainer.answeringTimeArray[i] < TypingTrainer.answeringTimeArray[flopTenArray[flopIndex
+              - 1]]) {
+            flopTenArray[flopIndex] = i;
+          }
+        }
+      }
+    }
+  }
 
   public static void createCharArray() {
-
-    // ALGORITHM TO CREATE AN ARRAY CONTAINING ALL CHARACTERS:
-    int i;
+    // CREATE AN ARRAY CONTAINING ALL CHARACTERS:
+    int ascii;
     int index = 0;
-    for (i = 70; i <= (70 + numberOfQuestions - 1); i++)// default 94 questions = ASCII 33-126
+    for (ascii = 70; ascii <= (70 + numberOfQuestions - 1); ascii++)
+    // default 94 questions = ASCII 33-126
     {
-      char currentCharacter = (char) i;
+      char currentCharacter = (char) ascii;
       allCharsArray[index] = currentCharacter;
       index++;
     }
@@ -79,7 +115,7 @@ public class RandomQuestionGenerator {
         }
       }
     }
-    // TRANSFER NO ARRAY TO STRING
+    // TRANSFER NO ARRAY TO STRING:
     for (int i = 0; i < numberOfQuestions; i++) {
       int currentNo = allQuestionsArrayNo[i];
       char currentChar = allCharsArray[currentNo];
@@ -88,7 +124,7 @@ public class RandomQuestionGenerator {
     }
     return allQuestionsArrayString;
   }
-  
+
   private static void printArray() {
     // PRINT ALL CHARACTERS:
     for (int i = 0; i < numberOfQuestions; i++) {
@@ -102,5 +138,6 @@ public class RandomQuestionGenerator {
     createCharArray();
     generateQuestionStringArray();
     printArray();
+    createTopTen();
   }
 }
