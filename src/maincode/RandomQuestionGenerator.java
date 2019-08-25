@@ -21,6 +21,7 @@ public class RandomQuestionGenerator {
   static int drillcounter = 0;
   static int askedCharNo;
   static int slowestCharNo;
+  static int fastestAnswer;
   static long timeForAllStart;
   static long start;
   static double smoothedSignsPerMinute;
@@ -38,32 +39,44 @@ public class RandomQuestionGenerator {
 
   public static void createFlopTen() {
     /*
-     * Creates an array containing the question numbers of the currently slowest
-     * answered questions
+     * This function creates an array containing the question numbers of the currently slowest
+     * answered questions.
      */
-    long previousAnsweringTime = 0;
 
-    // STORE SLOWEST ANSWER (HIGHEST TIME) TO INDEX ZERO:
+    // FIND FASTEST ANSWER:
+    long previousAnsweringTime = 10000;
+    // ten seconds should be long enough to not be the fastest answer
+    for (int i = 0; i < numberOfQuestions; i++) {
+      if (TypingTrainer.answeringTimeArray[i] < previousAnsweringTime) {
+        fastestAnswer = i;
+        previousAnsweringTime = TypingTrainer.answeringTimeArray[i];
+      }
+    }
+    // ASSIGN FASTEST ANSWER TO ALL INDEXES TO MAKE SORT ALGORITHM POSSIBLE;
+    for (int i = 0; i < 10; i++) {
+      flopTenArray[i] = fastestAnswer;
+    }
+
+    // FIND AND STORE SLOWEST ANSWER (HIGHEST TIME) TO INDEX ZERO:
     for (int i = 0; i < numberOfQuestions; i++) {
       if (TypingTrainer.answeringTimeArray[i] > previousAnsweringTime) {
         flopTenArray[0] = i;
         previousAnsweringTime = TypingTrainer.answeringTimeArray[i];
       }
     }
-    // SORT AND STORE THE OTHER VALUES
 
+    // SORT AND STORE THE OTHER VALUES
     // assign the whole flop ten:
     for (int flopIndex = 1; flopIndex < 10; flopIndex++) {
 
       // check all questions
       for (int i = 0; i < numberOfQuestions; i++) {
-
-        // the value is bigger than the stored one:
-        if (TypingTrainer.answeringTimeArray[i] > TypingTrainer.answeringTimeArray[flopTenArray[flopIndex]]) {
-
-          // the value is not already stored in the highscore:
-          if (TypingTrainer.answeringTimeArray[i] < TypingTrainer.answeringTimeArray[flopTenArray[flopIndex
-              - 1]]) {
+        // the value is not already stored in the highscore:
+        if (TypingTrainer.answeringTimeArray[i] < TypingTrainer.answeringTimeArray[flopTenArray[flopIndex
+            - 1]]) {
+          // the value is bigger than the stored one:
+          if (TypingTrainer.answeringTimeArray[i] > TypingTrainer.answeringTimeArray[flopTenArray[flopIndex]]) {
+            // store the value:
             flopTenArray[flopIndex] = i;
           }
         }
