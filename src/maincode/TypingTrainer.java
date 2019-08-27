@@ -32,13 +32,22 @@ package maincode;
 
 import java.util.Arrays;
 import java.util.Random;
-import java.util.concurrent.CompletableFuture.AsynchronousCompletionTask;
 
 public class TypingTrainer extends javax.swing.JFrame {
 
   private static Random rand = new Random();
 
   // VARIABLES:
+  // Variables declaration - do not modify//GEN-BEGIN:variables
+  public javax.swing.JTextField answerField;
+  public javax.swing.JLabel charsPerMinuteField;
+  public javax.swing.JLabel charsPerMinuteLabel;
+  public javax.swing.JLabel charsToGoField;
+  public javax.swing.JLabel charsToGoLabel;
+  public javax.swing.JLabel infoTextField;
+  public javax.swing.JLabel questionField;
+  // End of variables declaration//GEN-END:variables
+
   private static final long serialVersionUID = 1L;
 
   static boolean answeredCorrect;
@@ -48,8 +57,8 @@ public class TypingTrainer extends javax.swing.JFrame {
   static int qChar;
   static int numberOfQuestions = RandomQuestionGenerator.numberOfQuestions;
   static int randCharNo;
-  int noOfDrillQuestions =100;
-  
+  int noOfDrillQuestions = 100;
+
   static String questionString;
   static String typedChar;
   static String level = "0.0";
@@ -147,7 +156,7 @@ public class TypingTrainer extends javax.swing.JFrame {
     answerField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
     answerField.setPreferredSize(new java.awt.Dimension(130, 130));
     answerField.addKeyListener(new java.awt.event.KeyAdapter() {
-
+      @Override
       public void keyReleased(java.awt.event.KeyEvent evt) {
         answerFieldKeyReleased(evt);
       }
@@ -259,18 +268,18 @@ public class TypingTrainer extends javax.swing.JFrame {
       charsToGoString = Integer.toString(noOfDrillQuestions);
       infoTextField.setText("DRILL MODE");
       level = "2.1";
-      randCharNo = rand.nextInt(10); //creates random nuber between 0 and 9
+      randCharNo = rand.nextInt(10); // creates random nuber between 0 and 9
       questionString = questionStringArray[randCharNo];
       questionField.setText(questionString);
       answerField.setText("");
       charsToGoField.setText(charsToGoString);
       charStopwatch = System.currentTimeMillis();
       break;
-      
+
     case "2.1": // DRILL MODE:
-      
+
       // create random value for one value out of the ten slowest answers
-      
+
       // ask question:
       questionString = questionStringArray[randCharNo];
       questionField.setText(questionString); // show question char in question field
@@ -284,13 +293,13 @@ public class TypingTrainer extends javax.swing.JFrame {
         charsToGoString = Integer.toString(noOfDrillQuestions);
 
         // display typing speed:
-        //long timeElapsed = System.currentTimeMillis() - startTime;
-        //float timeElapsedSeconds = timeElapsed / 1000f;
-        //float timePerChar = timeElapsedSeconds / (questionNo + 1);
-        //float charsPerMinute = 60 / timePerChar;
-        //int charsPerMinuteInt = Math.round(charsPerMinute);
-        //String charsPerMinuteString = String.valueOf(charsPerMinuteInt);
-        //charsPerMinuteField.setText(charsPerMinuteString);
+        // long timeElapsed = System.currentTimeMillis() - startTime;
+        // float timeElapsedSeconds = timeElapsed / 1000f;
+        // float timePerChar = timeElapsedSeconds / (questionNo + 1);
+        // float charsPerMinute = 60 / timePerChar;
+        // int charsPerMinuteInt = Math.round(charsPerMinute);
+        // String charsPerMinuteString = String.valueOf(charsPerMinuteInt);
+        // charsPerMinuteField.setText(charsPerMinuteString);
 
         // store answering speed
         long charAnsweringTime = System.currentTimeMillis() - charStopwatch;
@@ -305,22 +314,22 @@ public class TypingTrainer extends javax.swing.JFrame {
         }
         // display next question:
         charStopwatch = System.currentTimeMillis();
-        randCharNo = rand.nextInt(10); //creates random nuber between 0 and 9
+        randCharNo = rand.nextInt(10); // creates random nuber between 0 and 9
         questionString = questionStringArray[randCharNo];
         questionField.setText(questionString);
-        
+
         charsToGoString = Integer.toString(numberOfQuestions - questionNo);
         answerField.setText("");
-                break;
+        break;
 
         // ANSWERED WRONG:
       } else if (!typedChar.equals("")) {// = answered wrong
         setQuestionFieldColor("red");
       }
-      
-      // store time 
+
+      // store time
       // refresh flop ten:
-      
+
       break;
 
     }// GEN-LAST:event_answerFieldKeyReleased
@@ -360,16 +369,6 @@ public class TypingTrainer extends javax.swing.JFrame {
       }
     });
   }
-
-  // Variables declaration - do not modify//GEN-BEGIN:variables
-  public javax.swing.JTextField answerField;
-  public javax.swing.JLabel charsPerMinuteField;
-  public javax.swing.JLabel charsPerMinuteLabel;
-  public javax.swing.JLabel charsToGoField;
-  public javax.swing.JLabel charsToGoLabel;
-  public javax.swing.JLabel infoTextField;
-  public javax.swing.JLabel questionField;
-  // End of variables declaration//GEN-END:variables
 
   private void setQuestionFieldColor(String color) {
     if (color.equals("red")) {
