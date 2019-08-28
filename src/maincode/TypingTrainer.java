@@ -28,6 +28,13 @@
  * ********************************************************************************
  */
 
+/*
+ * TODO
+ * LIMIT FLOP 10 TO LESS THAN 10 VALUES
+ * PRINT OUT THE CHARS OF THE FLOP TEN: ARRAY IN TERMINAL
+ * IMPLEMENT TIME AND COUNT FUNCTIONS:
+ */
+
 package maincode;
 
 import java.util.Arrays;
@@ -57,7 +64,8 @@ public class TypingTrainer extends javax.swing.JFrame {
   static int qChar;
   static int numberOfQuestions = RandomQuestionGenerator.numberOfQuestions;
   static int randCharNo;
-  int noOfDrillQuestions = 100;
+  static int nextQuestionNo;
+  static int noOfDrillQuestions = 100;
 
   static String questionString;
   static String typedChar;
@@ -264,28 +272,24 @@ public class TypingTrainer extends javax.swing.JFrame {
 
       break;
 
-    case "2.0": // WAITING FOR ANY KEY:
-      charsToGoString = Integer.toString(noOfDrillQuestions);
+    case "2.0": // START DRILL MODE, SHOW FIRST QUESTION:
       infoTextField.setText("DRILL MODE");
-      level = "2.1";
+      charsToGoString = Integer.toString(noOfDrillQuestions);
+      RandomQuestionGenerator.createFlopTen();
       randCharNo = rand.nextInt(10); // creates random nuber between 0 and 9
-      questionString = questionStringArray[randCharNo];
+      nextQuestionNo =RandomQuestionGenerator.flopTenArray[randCharNo];
+      questionString = questionStringArray[nextQuestionNo];
       questionField.setText(questionString);
       answerField.setText("");
-      charsToGoField.setText(charsToGoString);
-      charStopwatch = System.currentTimeMillis();
+      //charsToGoField.setText(charsToGoString);
+      //charStopwatch = System.currentTimeMillis();
+      level = "2.1";
       break;
 
     case "2.1": // DRILL MODE:
 
-      // create random value for one value out of the ten slowest answers
-
-      // ask question:
-      questionString = questionStringArray[randCharNo];
-      questionField.setText(questionString); // show question char in question field
-
       // ANSWERED CORRECT:
-      if (typedChar.equals(questionStringArray[randCharNo])) {
+      if (typedChar.equals(questionStringArray[nextQuestionNo])) {
         setQuestionFieldColor("black");
 
         // display chars to go:
@@ -293,35 +297,35 @@ public class TypingTrainer extends javax.swing.JFrame {
         charsToGoString = Integer.toString(noOfDrillQuestions);
 
         // display typing speed:
-        // long timeElapsed = System.currentTimeMillis() - startTime;
-        // float timeElapsedSeconds = timeElapsed / 1000f;
-        // float timePerChar = timeElapsedSeconds / (questionNo + 1);
+        //long timeElapsed = System.currentTimeMillis() - startTime;
+        //float timeElapsedSeconds = timeElapsed / 1000f;
+        //float timePerChar = timeElapsedSeconds / (questionNo + 1);
         // float charsPerMinute = 60 / timePerChar;
         // int charsPerMinuteInt = Math.round(charsPerMinute);
         // String charsPerMinuteString = String.valueOf(charsPerMinuteInt);
         // charsPerMinuteField.setText(charsPerMinuteString);
 
         // store answering speed
-        long charAnsweringTime = System.currentTimeMillis() - charStopwatch;
-        answeringTimeArray[questionNo] = charAnsweringTime;
+        //long charAnsweringTime = System.currentTimeMillis() - charStopwatch;
+        //answeringTimeArray[questionNo] = charAnsweringTime;
 
-        System.out.println("Question number " + questionNo + " took "
-            + answeringTimeArray[questionNo] + " ms to answer");
-
-        if (numberOfQuestions - (questionNo + 1) == 0) {
-          level = "1.1";
-          break;
-        }
-        // display next question:
-        charStopwatch = System.currentTimeMillis();
-        randCharNo = rand.nextInt(10); // creates random nuber between 0 and 9
+        // create random value for one value out of the ten slowest answers
+        
+        // ask question:
         questionString = questionStringArray[randCharNo];
-        questionField.setText(questionString);
+        questionField.setText(questionString); // show question char in question field
 
+        // display next question:
+        //charStopwatch = System.currentTimeMillis();
+        randCharNo = rand.nextInt(10); // creates random nuber between 0 and 9
+        nextQuestionNo =RandomQuestionGenerator.flopTenArray[randCharNo];
+        questionString = questionStringArray[nextQuestionNo];
+        questionField.setText(questionString);
+        
         charsToGoString = Integer.toString(numberOfQuestions - questionNo);
         answerField.setText("");
         break;
-
+        
         // ANSWERED WRONG:
       } else if (!typedChar.equals("")) {// = answered wrong
         setQuestionFieldColor("red");
@@ -331,9 +335,10 @@ public class TypingTrainer extends javax.swing.JFrame {
       // refresh flop ten:
 
       break;
+    }
 
     }// GEN-LAST:event_answerFieldKeyReleased
-  }
+  
 
   public static void main(String args[]) {
 

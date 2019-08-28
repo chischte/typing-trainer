@@ -22,6 +22,7 @@ public class RandomQuestionGenerator {
   static int askedCharNo;
   static int slowestCharNo;
   static int fastestAnswer;
+  static int numberOfFlopTenChars=3; //for testing purposes the flopTen can have less than 10 chars
   static long timeForAllStart;
   static long start;
   static double smoothedSignsPerMinute;
