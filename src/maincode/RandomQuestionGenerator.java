@@ -17,12 +17,12 @@ public class RandomQuestionGenerator {
   static boolean allQuestionsGenerated = false;
   static boolean charArrayCreated = false;
   static boolean answeredCorrect;
-  static int numberOfQuestions = 5;// DEFAULT 94
+  static int numberOfQuestions = 12;// DEFAULT 94
   static int drillcounter = 0;
   static int askedCharNo;
   static int slowestCharNo;
   static int fastestAnswer;
-  static int numberOfFlopTenChars=3; //for testing purposes the flopTen can have less than 10 chars
+  static int numberOfFlopTenChars=5; //for testing purposes the flopTen can have less than 10 chars
   static long timeForAllStart;
   static long start;
   static double smoothedSignsPerMinute;
@@ -36,7 +36,7 @@ public class RandomQuestionGenerator {
   static char[] allCharsArray = new char[numberOfQuestions];
   static double[] timeArray = new double[numberOfQuestions];
   static String[] allQuestionsArrayString = new String[numberOfQuestions];
-  static int[] flopTenArray = new int[10];
+  static int[] flopTenArray = new int[numberOfFlopTenChars];
 
   public static void createFlopTen() {
     /*
@@ -54,7 +54,7 @@ public class RandomQuestionGenerator {
       }
     }
     // ASSIGN FASTEST ANSWER TO ALL INDEXES TO MAKE SORT ALGORITHM POSSIBLE;
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < numberOfFlopTenChars; i++) {
       flopTenArray[i] = fastestAnswer;
     }
 
@@ -68,7 +68,7 @@ public class RandomQuestionGenerator {
 
     // SORT AND STORE THE OTHER VALUES
     // assign the whole flop ten:
-    for (int flopIndex = 1; flopIndex < 10; flopIndex++) {
+    for (int flopIndex = 1; flopIndex < numberOfFlopTenChars; flopIndex++) {
 
       // check all questions
       for (int i = 0; i < numberOfQuestions; i++) {
@@ -89,7 +89,7 @@ public class RandomQuestionGenerator {
     // CREATE AN ARRAY CONTAINING ALL CHARACTERS:
     int ascii;
     int index = 0;
-    for (ascii = 70; ascii <= (70 + numberOfQuestions - 1); ascii++)
+    for (ascii = 100; ascii <= (100 + numberOfQuestions - 1); ascii++)
     // default 94 questions = ASCII 33-126
     {
       char currentCharacter = (char) ascii;
